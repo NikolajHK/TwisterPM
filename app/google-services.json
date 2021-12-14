@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "782080407380",
+    "project_id": "twister-pm-23746",
+    "storage_bucket": "twister-pm-23746.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782080407380:android:ef603d5105cdc41c8a3ac1",
+        "android_client_info": {
+          "package_name": "com.example.twisterpm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782080407380-smv84mj6tiljqik452nojd60cspmc1mc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAibjoXVUM7EuiNz17n2oubhGPzsHe_JcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782080407380-smv84mj6tiljqik452nojd60cspmc1mc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

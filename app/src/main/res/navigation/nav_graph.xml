@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/LoginSignupFragment">
+
+    <fragment
+        android:id="@+id/LoginSignupFragment"
+        android:name="com.example.twisterpm.view.LoginSignupFragment"
+        android:label="@string/loginsignup_label"
+        tools:layout="@layout/fragment_loginsignup">
+
+        <action
+            android:id="@+id/action_LoginSignupFragment_to_MessageStreamFragment"
+            app:destination="@id/MessageStreamFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/MessageStreamFragment"
+        android:name="com.example.twisterpm.view.MessageStreamFragment"
+        android:label="@string/messagestream_fragment_label"
+        tools:layout="@layout/fragment_messagestream">
+
+        <action
+            android:id="@+id/action_MessageStreamFragment_to_LoginSignupFragment"
+            app:destination="@id/LoginSignupFragment" />
+        <action
+            android:id="@+id/action_MessageStreamFragment_to_MessageThreadFragment"
+            app:destination="@id/MessageThreadFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/MessageThreadFragment"
+        android:name="com.example.twisterpm.view.MessageThreadFragment"
+        android:label="@string/messagethread_fragment_label"
+        tools:layout="@layout/fragment_messagethread" />
+</navigation>

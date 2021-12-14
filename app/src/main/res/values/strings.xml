@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Twister PM</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="loginsignup_label">LoginSignup Fragment</string>
+    <string name="messagestream_fragment_label">MessageStream Fragment</string>
+    <string name="messagethread_fragment_label">MessageThread Fragment</string>
+    <string name="Signup">Signup</string>
+    <string name="Login">Login</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Welcome to Twister PM</string>
+    <string name="hello_second_fragment">Home Stream. Arg: %1$s</string>
+
+</resources>
