@@ -36,13 +36,13 @@ class MessagesRepository {
                 } else {
                     val message = response.code().toString() + " " +response.message()
                     errorMessageLiveData.postValue(message)
-                    Log.d("Fail", message)
+                    Log.d("MessageRepository", message)
                 }
             }
 
             override fun onFailure(call: Call<List<Message>>, t: Throwable) {
                 errorMessageLiveData.postValue(t.message)
-                Log.d("Fail", t.message!!)
+                Log.d("MessageRepository", t.message!!)
             }
 
         })

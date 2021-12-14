@@ -1,5 +1,6 @@
 package com.example.twisterpm.model
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.AuthResult
@@ -10,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 class LoginSignupRepository {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     val userLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData()
-    val loggedOutLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val errorLiveData: MutableLiveData<String> = MutableLiveData()
 
 
@@ -20,8 +20,9 @@ class LoginSignupRepository {
                 if (task.isSuccessful) {
                     userLiveData.postValue(firebaseAuth.currentUser)
                 } else {
-                    errorLiveData.value =
-                        "Failed to login: " + task.exception!!.message
+                    val message = "Failed to login: " + task.exception!!.message
+                    errorLiveData.value = message
+                    Log.d("LoginSignupRepository",message)
                 }
             }
     }
@@ -32,16 +33,23 @@ class LoginSignupRepository {
                 if (task.isSuccessful) {
                     userLiveData.postValue(firebaseAuth.currentUser)
                 } else {
-                    errorLiveData.value =
-                        "Signup Failed: " + task.exception!!.message
+                    val message = "Signup Failed: " + task.exception!!.message
+                    errorLiveData.value = message
+                    Log.d("LoginSignupRepository",message)
                 }
             }
     }
 
     fun signOut() {
+        TODO()
         firebaseAuth.signOut()
-        firebaseAuth.currentUser;
-        loggedOutLiveData.postValue(true)
+        if (firebaseAuth.currentUser == null) {
+            userLiveData.postValue(firebaseAuth.currentUser)
+        } else {
+            val message = "Sign Out Failed"
+            errorLiveData.value = message
+            Log.d("LoginSignupRepository",message)
+        }
     }
 
 //    init {

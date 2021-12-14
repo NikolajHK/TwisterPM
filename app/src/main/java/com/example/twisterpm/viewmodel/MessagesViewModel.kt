@@ -10,10 +10,9 @@ import com.example.twisterpm.model.MessagesRepository
 class MessagesViewModel : ViewModel() {
 
     //User auth
-    private val userRepository = LoginSignupRepository()
-    val userLiveData = userRepository.userLiveData
-    val userLoggedOutLiveData = userRepository.loggedOutLiveData
-    val userErrorLiveData = userRepository.errorLiveData
+    private val loginSignupRepository = LoginSignupRepository()
+    val userLiveData = loginSignupRepository.userLiveData
+    val userErrorLiveData = loginSignupRepository.errorLiveData
 
     //Messages
     private val messagesRepository = MessagesRepository()
@@ -29,20 +28,23 @@ class MessagesViewModel : ViewModel() {
     }
 
 
-    fun add(message: Message) {
-        messagesRepository.add(message)
-    }
-    fun add(comment: Comment) {
-        messagesRepository.add(comment)
-    }
-
-    fun delete(id: Int) {
-        messagesRepository.delete(id)
-    }
+//    fun addMessage(message: Message) {
+//        messagesRepository.addMessage(message)
+//    }
+//    fun addComment(comment: Comment) {
+//        messagesRepository.addComment(comment)
+//    }
+//
+//    fun deleteMessage(id: Int) {
+//        messagesRepository.deleteMessage(id)
+//    }
+//    fun deleteComment(id: Int) {
+//        messagesRepository.deleteComment(id)
+//    }
 
 
     //User Sign Out
     fun signOut() {
-        userRepository.signOut()
+        loginSignupRepository.signOut()
     }
 }

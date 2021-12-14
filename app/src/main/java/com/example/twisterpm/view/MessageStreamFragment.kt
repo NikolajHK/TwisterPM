@@ -48,8 +48,8 @@ class MessageStreamFragment : Fragment() {
             messagesViewModel.signOut()
         }
 
-        messagesViewModel.loggedOutLiveData.observe(viewLifecycleOwner) { loggedOut ->
-            if (loggedOut == true){
+        messagesViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
+            if (firebaseUser == null){
                 findNavController().navigate(R.id.action_MessageStreamFragment_to_LoginSignupFragment)
             }
         }

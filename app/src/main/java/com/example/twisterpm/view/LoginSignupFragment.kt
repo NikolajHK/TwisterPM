@@ -55,7 +55,6 @@ class LoginSignupFragment : Fragment() {
         loginSignupViewModel.userLiveData.observe(viewLifecycleOwner){firebaseUser ->
             if (firebaseUser != null) {
                 findNavController().navigate(R.id.action_LoginSignupFragment_to_MessageStreamFragment)
-                loginSignupViewModel.loggedOutLiveData.postValue(false)
             }
         }
 
