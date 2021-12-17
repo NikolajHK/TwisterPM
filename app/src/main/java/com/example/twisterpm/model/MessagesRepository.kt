@@ -16,7 +16,6 @@ class MessagesRepository {
     private val messageStoreService: MessageStoreService
     val messagesLiveData: MutableLiveData<List<Message>> = MutableLiveData<List<Message>>()
     val errorMessageLiveData: MutableLiveData<String> = MutableLiveData()
-
     val commentsLiveData: MutableLiveData<List<Comment>> = MutableLiveData<List<Comment>>()
 
     init {

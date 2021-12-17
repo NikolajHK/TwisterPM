@@ -27,6 +27,10 @@ class MessagesViewModel : ViewModel() {
         messagesRepository.getMessages()
     }
 
+    operator fun get(index: Int): Message? {
+        return messageLiveData.value?.get(index)
+    }
+
 
 //    fun addMessage(message: Message) {
 //        messagesRepository.addMessage(message)

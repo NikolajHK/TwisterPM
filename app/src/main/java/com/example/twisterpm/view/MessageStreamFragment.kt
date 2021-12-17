@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twisterpm.R
 import com.example.twisterpm.databinding.FragmentMessagestreamBinding
+import com.example.twisterpm.model.MessagesAdapter
 import com.example.twisterpm.viewmodel.MessagesViewModel
 
 /**
@@ -28,7 +30,7 @@ class MessageStreamFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentMessagestreamBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,12 +40,33 @@ class MessageStreamFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Auth
         messagesViewModel.userLiveData.observe(viewLifecycleOwner){firebaseUser ->
             if (firebaseUser != null) {
                 binding.LoggedInUserView.text= firebaseUser.email
             }
         }
 
+        //Messages
+        messagesViewModel.loadMessages()
+
+        messagesViewModel.messageLiveData.observe(viewLifecycleOwner) { messages ->
+            if (messages != null) {
+                val adapter = MessagesAdapter(messages) { position ->
+                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(position)
+                    findNavController().navigate(action)
+                }
+                binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+                binding.recyclerView.adapter = adapter
+            }
+        }
+
+        messagesViewModel.messageErrorLiveData.observe(viewLifecycleOwner) { errorMessage ->
+            binding.ErrorTextViewmessageStream.text = errorMessage
+
+        }
+
+        //Logout
         binding.ButtonLogOut.setOnClickListener {
             messagesViewModel.signOut()
         }

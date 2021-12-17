@@ -7,7 +7,7 @@
     tools:context=".view.MessageStreamFragment">
 
     <TextView
-        android:id="@+id/textview_second"
+        android:id="@+id/ErrorTextViewmessageStream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,12 +19,14 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonLogOut"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/message_item"
-        tools:itemCount="5"/>
+        tools:itemCount="5"
+        tools:listitem="@layout/message_item" />
 
     <TextView
         android:id="@+id/LoggedInUserView"

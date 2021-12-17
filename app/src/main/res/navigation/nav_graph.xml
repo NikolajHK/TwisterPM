@@ -27,10 +27,21 @@
         <action
             android:id="@+id/action_MessageStreamFragment_to_MessageThreadFragment"
             app:destination="@id/MessageThreadFragment" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/MessageThreadFragment"
         android:name="com.example.twisterpm.view.MessageThreadFragment"
         android:label="@string/messagethread_fragment_label"
-        tools:layout="@layout/fragment_messagethread" />
+        tools:layout="@layout/fragment_messagethread">
+
+        <action
+            android:id="@+id/action_MessageThreadFragment_to_MessageStreamFragment"
+            app:destination="@id/MessageStreamFragment" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 </navigation>
