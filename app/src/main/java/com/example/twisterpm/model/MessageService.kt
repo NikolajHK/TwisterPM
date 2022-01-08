@@ -3,7 +3,7 @@ package com.example.twisterpm.model
 import retrofit2.Call
 import  retrofit2.http.*
 
-interface MessageStoreService {
+interface MessageService {
 
     //Messages
     @GET("messages")
@@ -18,12 +18,12 @@ interface MessageStoreService {
 
     //Comments
     @GET("messages/{messageId}/comments")
-    fun getCommentsByMessageId():Call<List<Comment>>
+    fun getCommentsByMessageId(@Path("messageId") messageId: Int):Call<List<Comment>>
 
     @POST("messages/{messageId}/comments")
-    fun postComment(@Body comment: Comment): Call<Comment>
+    fun postComment(@Path("messageId") messageId: Int, @Body comment: Comment): Call<Comment>
 
     @DELETE("messages/{messageId}/comments/{commentId}")
-    fun deleteComment(@Path("commentId") id: Int): Call<Comment>
+    fun deleteComment(@Path("messageId") messageId: Int, @Path("commentId") id: Int): Call<Comment>
 
 }

@@ -16,8 +16,10 @@ class MessagesViewModel : ViewModel() {
 
     //Messages
     private val messagesRepository = MessagesRepository()
-    val messageLiveData: LiveData<List<Message>> = messagesRepository.messagesLiveData
+    val messagesLiveData: LiveData<List<Message>> = messagesRepository.messagesLiveData
+    val commentsLiveData: LiveData<List<Comment>> = messagesRepository.commentsLiveData
     val messageErrorLiveData: LiveData<String> = messagesRepository.errorMessageLiveData
+    val updateMessageLiveData: LiveData<String> = messagesRepository.updateMessageLiveData
 
     init {
         loadMessages()
@@ -27,21 +29,28 @@ class MessagesViewModel : ViewModel() {
         messagesRepository.getMessages()
     }
 
+//    fun loadComments() {
+//        messagesRepository.getCommentsByMessageId()
+//    }
+
     operator fun get(index: Int): Message? {
-        return messageLiveData.value?.get(index)
+        return messagesLiveData.value?.get(index)
     }
 
+//    operator fun get(index: Int): Comment? {
+//        return commentsLiveData.value?.get(index)
+//    }
 
-//    fun addMessage(message: Message) {
-//        messagesRepository.addMessage(message)
+    fun postMessage(message: Message) {
+        messagesRepository.postMessage(message)
+    }
+//    fun postComment(comment: Comment) {
+//        messagesRepository.postComment(comment)
 //    }
-//    fun addComment(comment: Comment) {
-//        messagesRepository.addComment(comment)
-//    }
-//
-//    fun deleteMessage(id: Int) {
-//        messagesRepository.deleteMessage(id)
-//    }
+
+    fun deleteMessage(id: Int) {
+        messagesRepository.deleteMessage(id)
+    }
 //    fun deleteComment(id: Int) {
 //        messagesRepository.deleteComment(id)
 //    }

@@ -5,16 +5,20 @@ import androidx.lifecycle.ViewModel
 import com.example.twisterpm.model.LoginSignupRepository
 
 class LoginSignupViewModel : ViewModel() {
-    private val repository = LoginSignupRepository()
-    val userLiveData = repository.userLiveData
-    val errorLiveData = repository.errorLiveData
+    private val loginSignupRepository = LoginSignupRepository()
+    val userLiveData = loginSignupRepository.userLiveData
+    val errorLiveData = loginSignupRepository.errorLiveData
 
     fun login(email: String, password: String) {
-        repository.login(email, password)
+        loginSignupRepository.login(email, password)
     }
 
     fun signup(email: String, password: String) {
-        repository.signup(email, password)
+        loginSignupRepository.signup(email, password)
+    }
+
+    fun signOut() {
+        loginSignupRepository.signOut()
     }
 
 }

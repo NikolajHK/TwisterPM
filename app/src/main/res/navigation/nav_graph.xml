@@ -13,7 +13,8 @@
 
         <action
             android:id="@+id/action_LoginSignupFragment_to_MessageStreamFragment"
-            app:destination="@id/MessageStreamFragment" />
+            app:destination="@id/MessageStreamFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
     <fragment
         android:id="@+id/MessageStreamFragment"
@@ -23,13 +24,14 @@
 
         <action
             android:id="@+id/action_MessageStreamFragment_to_LoginSignupFragment"
-            app:destination="@id/LoginSignupFragment" />
+            app:destination="@id/LoginSignupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_MessageStreamFragment_to_MessageThreadFragment"
-            app:destination="@id/MessageThreadFragment" />
-        <argument
-            android:name="position"
-            app:argType="integer" />
+            app:destination="@id/MessageThreadFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/MessageThreadFragment"
@@ -39,9 +41,14 @@
 
         <action
             android:id="@+id/action_MessageThreadFragment_to_MessageStreamFragment"
-            app:destination="@id/MessageStreamFragment" />
+            app:destination="@id/MessageStreamFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
         <argument
             android:name="position"
             app:argType="integer" />
+        <argument
+            android:name="message"
+            app:argType="com.example.twisterpm.model.Message" />
     </fragment>
 </navigation>

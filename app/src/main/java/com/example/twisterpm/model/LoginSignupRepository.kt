@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 
 
 class LoginSignupRepository {
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     val userLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData()
     val errorLiveData: MutableLiveData<String> = MutableLiveData()
 

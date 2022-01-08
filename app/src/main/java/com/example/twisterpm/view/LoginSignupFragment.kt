@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.twisterpm.R
 import com.example.twisterpm.databinding.FragmentLoginsignupBinding
+import com.example.twisterpm.model.User
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
 import com.google.firebase.auth.FirebaseUser
 
@@ -19,11 +22,7 @@ import com.google.firebase.auth.FirebaseUser
 class LoginSignupFragment : Fragment() {
 
     private var _binding: FragmentLoginsignupBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
     private val loginSignupViewModel : LoginSignupViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -54,7 +53,9 @@ class LoginSignupFragment : Fragment() {
         }
         loginSignupViewModel.userLiveData.observe(viewLifecycleOwner){firebaseUser ->
             if (firebaseUser != null) {
-                findNavController().navigate(R.id.action_LoginSignupFragment_to_MessageStreamFragment)
+//                val user = currentUser
+                val action= LoginSignupFragmentDirections.actionLoginSignupFragmentToMessageStreamFragment()
+                findNavController().navigate(action)
             }
         }
 
