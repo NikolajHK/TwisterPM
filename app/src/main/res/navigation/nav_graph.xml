@@ -47,8 +47,5 @@
         <argument
             android:name="position"
             app:argType="integer" />
-        <argument
-            android:name="message"
-            app:argType="com.example.twisterpm.model.Message" />
     </fragment>
 </navigation>

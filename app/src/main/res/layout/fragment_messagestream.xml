@@ -7,7 +7,7 @@
     tools:context=".view.MessageStreamFragment">
 
     <TextView
-        android:id="@+id/ErrorTextViewmessageStream"
+        android:id="@+id/ErrorTextViewMessageStream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,11 +21,11 @@
         android:ems="10"
         android:hint="Create new post..."
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNewMessage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoggedInUserView"
         app:layout_constraintVertical_bias="0.0" />
 
 
@@ -38,36 +38,47 @@
         android:backgroundTint="@color/colorSecondary"
         android:text="Post Message"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newMessageTextEdit" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/ButtonLogOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNewMessage"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:itemCount="5"
-        tools:listitem="@layout/message_item" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonNewMessage">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@+id/ButtonLogOut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonNewMessage"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:itemCount="5"
+            tools:listitem="@layout/comment_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/LoggedInUserView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/ButtonLogOut"
+        app:layout_constraintBottom_toTopOf="@+id/newMessageTextEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
@@ -83,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/swipeRefresh"
         app:layout_constraintVertical_bias="1.0" />
 
 

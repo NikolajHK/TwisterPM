@@ -16,9 +16,7 @@ import com.example.twisterpm.model.User
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
 import com.google.firebase.auth.FirebaseUser
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+
 class LoginSignupFragment : Fragment() {
 
     private var _binding: FragmentLoginsignupBinding? = null
@@ -28,7 +26,7 @@ class LoginSignupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentLoginsignupBinding.inflate(inflater, container, false)
         return binding.root

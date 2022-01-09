@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData
 
 class LoginSignupRepository {
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    val userLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData()
-    val errorLiveData: MutableLiveData<String> = MutableLiveData()
+    val userLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData<FirebaseUser?>()
+    val errorLiveData: MutableLiveData<String> = MutableLiveData<String>()
 
 
     fun login(email: String, password: String) {
@@ -41,7 +41,6 @@ class LoginSignupRepository {
     }
 
     fun signOut() {
-        TODO()
         firebaseAuth.signOut()
         if (firebaseAuth.currentUser == null) {
             userLiveData.postValue(firebaseAuth.currentUser)

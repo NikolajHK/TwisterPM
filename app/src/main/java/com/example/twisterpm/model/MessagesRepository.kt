@@ -74,9 +74,9 @@ class MessagesRepository {
                     Log.d("MessageRepository","Added: " + response.body())
                     updateMessageLiveData.postValue("Added: " + response.body())
                 } else {
-                    val message = response.code().toString() + " " + response.message()
-                    errorMessageLiveData.postValue(message)
-                    Log.d("MessageRepository", message)
+                    val log = response.code().toString() + " " + response.message()
+                    errorMessageLiveData.postValue(log)
+                    Log.d("MessageRepository", log)
                 }
             }
 

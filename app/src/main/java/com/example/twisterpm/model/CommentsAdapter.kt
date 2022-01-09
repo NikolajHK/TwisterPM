@@ -8,38 +8,37 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twisterpm.R
 import com.google.android.material.card.MaterialCardView
-import com.example.twisterpm.model.Message
 
-class MessagesAdapter(
-    private val messages: List<Message>,
+class CommentsAdapter(
+    private val comments: List<Comment>,
     private val onItemClicked: (position: Int) -> Unit
 ) :
-    RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>() {
+    RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
 
 
     override fun getItemCount(): Int {
-        return messages.size
+        return comments.size
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MessagesViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CommentsViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.message_item, viewGroup, false)
-        return MessagesViewHolder(view, onItemClicked)
+        return CommentsViewHolder(view, onItemClicked)
     }
 
-    override fun onBindViewHolder(viewHolder: MessagesViewHolder, position: Int) {
-        val message = messages[position]
-        viewHolder.message = message
-        viewHolder.messageUserTextView.text = message.user
-        viewHolder.messageContentTextView.text = message.content
+    override fun onBindViewHolder(viewHolder: CommentsViewHolder, position: Int) {
+        val comment = comments[position]
+        viewHolder.comment = comment
+        viewHolder.commentUserTextView.text = comment.user
+        viewHolder.commentContentTextView.text = comment.content
         viewHolder.messagesContainer.animation = AnimationUtils.loadAnimation(viewHolder.itemView.context, R.anim.alpha)
     }
 
 
-    inner class MessagesViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit, var message: Message? = null) :
+    inner class CommentsViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit, var comment: Comment? = null) :
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val messageUserTextView: TextView = itemView.findViewById(R.id.message_user_textview)
-        val messageContentTextView: TextView = itemView.findViewById(R.id.message_content_textview)
+        val commentUserTextView: TextView = itemView.findViewById(R.id.comment_user_textview)
+        val commentContentTextView: TextView = itemView.findViewById(R.id.comment_content_textview)
         val messagesContainer: MaterialCardView = itemView.findViewById(R.id.message_container)
 
         init {

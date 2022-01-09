@@ -9,12 +9,12 @@ import com.example.twisterpm.model.MessagesRepository
 
 class MessagesViewModel : ViewModel() {
 
-    //User auth
-    private val loginSignupRepository = LoginSignupRepository()
-    val userLiveData = loginSignupRepository.userLiveData
-    val userErrorLiveData = loginSignupRepository.errorLiveData
+//    //User auth
+//    private val loginSignupRepository = LoginSignupRepository()
+//    val userLiveData = loginSignupRepository.userLiveData
+//    val userErrorLiveData = loginSignupRepository.errorLiveData
 
-    //Messages
+
     private val messagesRepository = MessagesRepository()
     val messagesLiveData: LiveData<List<Message>> = messagesRepository.messagesLiveData
     val commentsLiveData: LiveData<List<Comment>> = messagesRepository.commentsLiveData
@@ -29,9 +29,9 @@ class MessagesViewModel : ViewModel() {
         messagesRepository.getMessages()
     }
 
-//    fun loadComments() {
-//        messagesRepository.getCommentsByMessageId()
-//    }
+    fun loadComments(messageId: Int) {
+        messagesRepository.getCommentsByMessageId(messageId)
+    }
 
     operator fun get(index: Int): Message? {
         return messagesLiveData.value?.get(index)
@@ -44,20 +44,20 @@ class MessagesViewModel : ViewModel() {
     fun postMessage(message: Message) {
         messagesRepository.postMessage(message)
     }
-//    fun postComment(comment: Comment) {
-//        messagesRepository.postComment(comment)
-//    }
+    fun postComment(messageId: Int, comment: Comment) {
+        messagesRepository.postComment(messageId, comment)
+    }
 
     fun deleteMessage(id: Int) {
         messagesRepository.deleteMessage(id)
     }
-//    fun deleteComment(id: Int) {
-//        messagesRepository.deleteComment(id)
-//    }
-
-
-    //User Sign Out
-    fun signOut() {
-        loginSignupRepository.signOut()
+    fun deleteComment(messageId: Int, id: Int) {
+        messagesRepository.deleteComment(messageId, id)
     }
+
+
+//    //User Sign Out
+//    fun signOut() {
+//        loginSignupRepository.signOut()
+//    }
 }

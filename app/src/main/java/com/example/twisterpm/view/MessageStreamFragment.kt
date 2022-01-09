@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,31 +52,23 @@ class MessageStreamFragment : Fragment() {
 //            messagesViewModel.userLiveData.postValue(user.email)
 //        }
 
-        messagesViewModel.userLiveData.observe(viewLifecycleOwner) {user ->
+        loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {user ->
             if (user != null) {
-                binding.LoggedInUserView.text= user.email
-            }
-        }
-
-
-        //Auth
-        messagesViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
-            if (firebaseUser != null) {
-                binding.LoggedInUserView.text= firebaseUser.email
-                val user = firebaseUser.email
+                binding.LoggedInUserView.text= "Logged in as " + user.email
             }
         }
 
         //Messages
         messagesViewModel.loadMessages()
+        Log.d("MessageStreamFragment","loaded messages")
 
         messagesViewModel.messagesLiveData.observe(viewLifecycleOwner) { messages ->
             if (messages != null) {
                 val adapter = MessagesAdapter(messages) { position ->
-                    val position = position
-                    val message = message
-                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(position, message)
+                    val selectedMessage = messages[position]
+                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(position)
                     findNavController().navigate(action)
+                    Log.d("MessageStreamFragment", "position: $position")
                 }
                 binding.recyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.recyclerView.adapter = adapter
@@ -83,13 +76,14 @@ class MessageStreamFragment : Fragment() {
         }
 
         binding.buttonNewMessage.setOnClickListener {
-            messagesViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
+            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
                 if (firebaseUser != null) {
-                    val user = firebaseUser.email.toString().trim()
+                    Log.d("MessageStreamFragment", "firebaseUser != null")
                     val content = binding.newMessageTextEdit.text.toString().trim()
-                    val newMessage = Message(user, content)
-                    Log.d("MessageStreamFragment", "add $newMessage")
+                    val user = firebaseUser.email.toString().trim()
+                    val newMessage = Message(content, user)
                     messagesViewModel.postMessage(newMessage)
+                    Log.d("MessageStreamFragment", "post $newMessage")
                     messagesViewModel.loadMessages()
                     binding.newMessageTextEdit.text.clear()
                 } else {
@@ -101,20 +95,33 @@ class MessageStreamFragment : Fragment() {
 
 
         messagesViewModel.messageErrorLiveData.observe(viewLifecycleOwner) { errorMessage ->
-            binding.ErrorTextViewmessageStream.text = errorMessage
+            binding.ErrorTextViewMessageStream.text = errorMessage
 
         }
 
         //Logout
         binding.ButtonLogOut.setOnClickListener {
-            messagesViewModel.signOut()
-            messagesViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
+            loginSignupViewModel.signOut()
+            Log.d("MessageStreamFragment", "Sign out successful")
+            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
                 if (firebaseUser == null){
-                findNavController().navigate(R.id.action_MessageStreamFragment_to_LoginSignupFragment)
+                    Log.d("MessageStreamFragment","firebaseUser now null")
+                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToLoginSignupFragment()
+                    findNavController().navigate(action)
+                    Log.d("MessageStreamFragment","Attempting to move: $action" )
                 }
             }
         }
+
+        binding.swipeRefresh.setOnRefreshListener{
+            messagesViewModel.loadMessages()
+            Log.d("MessageStreamFragment","swipe refresh: messages loaded")
+            binding.swipeRefresh.isRefreshing = false
+
+        }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
