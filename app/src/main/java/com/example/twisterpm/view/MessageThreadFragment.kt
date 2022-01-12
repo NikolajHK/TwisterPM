@@ -36,8 +36,7 @@ class MessageThreadFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-//        message = args.message
-//        comment = args.comment
+        var selectedMessage = args.selectedMessage
         _binding = FragmentMessagethreadBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,17 +44,13 @@ class MessageThreadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO()
-        val bundle = requireArguments()
-        val messageThreadFragmentArgs
-        : MessageThreadFragmentArgs = MessageThreadFragmentArgs.fromBundle(bundle)
-        val position = messageThreadFragmentArgs.position
-        val message = messagesViewModel.get(position)
 
-        binding.messageUserTextview.text = message?.user
-        binding.messageContentTextview.text = message?.content
+        val selectedMessage = args.selectedMessage
+        Log.d("MessageThreadFragment","Selected Message is: $selectedMessage")
+        binding.messageUserTextview.text = selectedMessage?.user
+        binding.messageContentTextview.text = selectedMessage?.content
 
-        messagesViewModel.loadComments(position)
+        messagesViewModel.loadComments(args.selectedMessage.id)
         Log.d("MessageThreadFragment","loaded comments")
 
         messagesViewModel.commentsLiveData.observe(viewLifecycleOwner) { comments ->
@@ -69,25 +64,27 @@ class MessageThreadFragment : Fragment() {
             }
         }
 
-//        binding.buttonNewComment.setOnClickListener {
-//            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
-//                if (firebaseUser != null) {
-//                    Log.d("MessageStreamFragment", "firebaseUser != null")
-//                    val content = binding.newCommentTextEdit.text.toString().trim()
-//                    val user = firebaseUser.email.toString().trim()
-//                    val newComment = Comment(content, user)
-//                    messagesViewModel.postComment(newComment)
-//                    Log.d("MessageStreamFragment", "post $newComment")
-//                    messagesViewModel.loadMessages()
-//                    binding.newCommentTextEdit.text.clear()
-//                } else {
-//                    val log = "Failed to add new message"
-//                    Log.d("MessageStreamFragment",log)
-//                }
-//            }
-//        }
+        binding.buttonNewComment.setOnClickListener {
+            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
+                if (firebaseUser != null) {
+                    Log.d("MessageStreamFragment", "firebaseUser != null")
+                    val content = binding.newCommentTextEdit.text.toString().trim()
+                    val messageId = args.selectedMessage.id
+                    val user = firebaseUser.email.toString().trim()
+                    val newComment = Comment(content,messageId,user)
+                    messagesViewModel.postComment(messageId, newComment)
+                    Log.d("MessageStreamFragment", "post $newComment")
+                    messagesViewModel.loadComments(args.selectedMessage.id)
+                    binding.newCommentTextEdit.text.clear()
+                } else {
+                    val log = "Failed to add new message"
+                    Log.d("MessageStreamFragment",log)
+                }
+            }
+        }
+
         binding.swipeRefresh.setOnRefreshListener{
-            messagesViewModel.loadMessages()
+            messagesViewModel.loadComments(args.selectedMessage.id)
             Log.d("MessageThreadFragment","swipe refresh: Comments loaded")
             binding.swipeRefresh.isRefreshing = false
 

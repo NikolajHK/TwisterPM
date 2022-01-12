@@ -28,18 +28,18 @@ class CommentsAdapter(
     override fun onBindViewHolder(viewHolder: CommentsViewHolder, position: Int) {
         val comment = comments[position]
         viewHolder.comment = comment
-        viewHolder.commentUserTextView.text = comment.user
-        viewHolder.commentContentTextView.text = comment.content
-        viewHolder.messagesContainer.animation = AnimationUtils.loadAnimation(viewHolder.itemView.context, R.anim.alpha)
+        viewHolder.itemUserTextView.text = comment.user
+        viewHolder.itemContentTextView.text = comment.content
+        viewHolder.itemContainer.animation = AnimationUtils.loadAnimation(viewHolder.itemView.context, R.anim.alpha)
     }
 
 
     inner class CommentsViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit, var comment: Comment? = null) :
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val commentUserTextView: TextView = itemView.findViewById(R.id.comment_user_textview)
-        val commentContentTextView: TextView = itemView.findViewById(R.id.comment_content_textview)
-        val messagesContainer: MaterialCardView = itemView.findViewById(R.id.message_container)
+        val itemUserTextView: TextView = itemView.findViewById(R.id.item_user_textview)
+        val itemContentTextView: TextView = itemView.findViewById(R.id.item_content_textview)
+        val itemContainer: MaterialCardView = itemView.findViewById(R.id.item_container)
 
         init {
             itemView.setOnClickListener(this)

@@ -29,18 +29,18 @@ class MessagesAdapter(
     override fun onBindViewHolder(viewHolder: MessagesViewHolder, position: Int) {
         val message = messages[position]
         viewHolder.message = message
-        viewHolder.messageUserTextView.text = message.user
-        viewHolder.messageContentTextView.text = message.content
-        viewHolder.messagesContainer.animation = AnimationUtils.loadAnimation(viewHolder.itemView.context, R.anim.alpha)
+        viewHolder.itemUserTextView.text = message.user
+        viewHolder.itemContentTextView.text = message.content
+        viewHolder.itemContainer.animation = AnimationUtils.loadAnimation(viewHolder.itemView.context, R.anim.alpha)
     }
 
 
     inner class MessagesViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit, var message: Message? = null) :
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val messageUserTextView: TextView = itemView.findViewById(R.id.message_user_textview)
-        val messageContentTextView: TextView = itemView.findViewById(R.id.message_content_textview)
-        val messagesContainer: MaterialCardView = itemView.findViewById(R.id.message_container)
+        val itemUserTextView: TextView = itemView.findViewById(R.id.item_user_textview)
+        val itemContentTextView: TextView = itemView.findViewById(R.id.item_content_textview)
+        val itemContainer: MaterialCardView = itemView.findViewById(R.id.item_container)
 
         init {
             itemView.setOnClickListener(this)

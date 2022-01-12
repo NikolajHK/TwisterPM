@@ -66,7 +66,7 @@ class MessageStreamFragment : Fragment() {
             if (messages != null) {
                 val adapter = MessagesAdapter(messages) { position ->
                     val selectedMessage = messages[position]
-                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(position)
+                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(selectedMessage)
                     findNavController().navigate(action)
                     Log.d("MessageStreamFragment", "position: $position")
                 }

@@ -9,4 +9,6 @@ data class Comment(
     val id: Int,
     val messageId: Int,
     val user: String
-) : Parcelable
+) : Parcelable {
+    constructor(content: String, messageId: Int , user: String) : this(content, -1, messageId, user)
+}
