@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twisterpm.databinding.FragmentMessagestreamBinding
 import com.example.twisterpm.viewmodel.MessagesViewModel
 import com.example.twisterpm.model.Message
+import com.example.twisterpm.model.MessagesAdapter
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
 
 /**
@@ -45,8 +46,6 @@ class MessageStreamFragment : Fragment() {
         }
 
         //Messages
-        val selectedMessage = messagesViewModel.selectedMessage
-
         messagesViewModel.loadMessages()
         Log.d("MessageStreamFragment","loaded messages")
 
@@ -67,22 +66,6 @@ class MessageStreamFragment : Fragment() {
                 }
                 binding.recyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.recyclerView.adapter = adapter
-            }
-        }
-        binding.buttonDeleteMessage.setOnClickListener {
-            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
-                if (firebaseUser?.email == selectedMessage.user) {
-                    Log.d(
-                        "MessageThreadFragment",
-                        "Logged in Firebase User: ${firebaseUser.email} is similar to message poster: ${selectedMessage.user}"
-                    )
-                    messagesViewModel.deleteMessage(selectedMessage.id)
-                    Log.d("MessageThreadFragment","deleted $selectedMessage")
-                    reloadMessages()
-                } else {
-                    val log = "Failed to delete comment"
-                    Log.d("MessageStreamFragment", log)
-                }
             }
         }
 
@@ -131,8 +114,6 @@ class MessageStreamFragment : Fragment() {
 
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

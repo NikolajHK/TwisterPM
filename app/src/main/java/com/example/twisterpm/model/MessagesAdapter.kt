@@ -1,4 +1,4 @@
-package com.example.twisterpm.view
+package com.example.twisterpm.model
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twisterpm.R
-import com.example.twisterpm.model.Message
 import com.google.android.material.card.MaterialCardView
 
 class MessagesAdapter(
@@ -40,9 +39,9 @@ class MessagesAdapter(
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val itemDeleteButton: ImageButton = itemView.findViewById(R.id.item_delete)
-        val itemUserTextView: TextView = itemView.findViewById(R.id.item_user_textview)
-        val itemContentTextView: TextView = itemView.findViewById(R.id.item_content_textview)
-        val itemContainer: MaterialCardView = itemView.findViewById(R.id.item_container)
+        val itemUserTextView: TextView = itemView.findViewById(R.id.message_user_textview)
+        val itemContentTextView: TextView = itemView.findViewById(R.id.message_content_textview)
+        val itemContainer: MaterialCardView = itemView.findViewById(R.id.message_container)
 
         init {
             itemView.setOnClickListener(this)

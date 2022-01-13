@@ -12,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.twisterpm.R
 import com.example.twisterpm.databinding.FragmentLoginsignupBinding
+import com.example.twisterpm.model.MessagesRepository
 import com.example.twisterpm.model.User
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
+import com.example.twisterpm.viewmodel.MessagesViewModel
 import com.google.firebase.auth.FirebaseUser
 
 
@@ -22,6 +24,7 @@ class LoginSignupFragment : Fragment() {
     private var _binding: FragmentLoginsignupBinding? = null
     private val binding get() = _binding!!
     private val loginSignupViewModel : LoginSignupViewModel by activityViewModels()
+    private val messagesViewModel : MessagesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,8 @@ class LoginSignupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val currentUser = loginSignupViewModel.userLiveData
+
+        messagesViewModel.loadMessages()
 
         binding.buttonSignup.setOnClickListener {
             val email = binding.editLoginUsername.text.toString().trim()

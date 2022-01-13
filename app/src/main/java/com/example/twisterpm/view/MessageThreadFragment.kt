@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twisterpm.databinding.FragmentMessagethreadBinding
 import com.example.twisterpm.model.Comment
-import com.example.twisterpm.model.Message
+import com.example.twisterpm.model.CommentsAdapter
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
 import com.example.twisterpm.viewmodel.MessagesViewModel
 
@@ -38,7 +39,6 @@ class MessageThreadFragment : Fragment() {
 
 
         val selectedMessage = messagesViewModel.selectedMessage
-        val selectedComment = messagesViewModel.selectedComment
         Log.d("MessageThreadFragment","Selected Message is: $selectedMessage")
         binding.messageUserTextview.text = selectedMessage?.user
         binding.messageContentTextview.text = selectedMessage?.content
@@ -65,6 +65,23 @@ class MessageThreadFragment : Fragment() {
                 binding.recyclerView.adapter = adapter
             }
         }
+        binding.buttonDeleteMessage.setOnClickListener {
+            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
+                if (firebaseUser?.email == messagesViewModel.selectedMessage.user) {
+                    Log.d(
+                        "MessageThreadFragment",
+                        "Logged in Firebase User: ${firebaseUser.email} is similar to message poster: ${messagesViewModel.selectedMessage.user}"
+                    )
+                    messagesViewModel.deleteMessage(messagesViewModel.selectedMessage.id)
+                    Log.d("MessageThreadFragment","deleted $messagesViewModel.selectedMessage")
+                    val action = MessageThreadFragmentDirections.actionMessageThreadFragmentToMessageStreamFragment()
+                    findNavController().popBackStack()
+                } else {
+                    val log = "Failed to delete comment"
+                    Log.d("MessageStreamFragment", log)
+                }
+            }
+        }
 
         binding.buttonDeleteComment.setOnClickListener {
             loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
@@ -73,17 +90,17 @@ class MessageThreadFragment : Fragment() {
                         "MessageThreadFragment",
                         "Logged in Firebase User: ${firebaseUser.email} is similar to message poster: ${selectedMessage.user}"
                     )
-                    messagesViewModel.deleteComment(selectedMessage.id, selectedComment.id)
-                    Log.d("MessageThreadFragment","deleted $selectedComment")
+                    messagesViewModel.deleteComment(selectedMessage.id, messagesViewModel.selectedComment.id)
+                    Log.d("MessageThreadFragment","deleted $messagesViewModel.selectedComment")
                     reloadComments()
                 }
-                if (firebaseUser?.email == selectedComment.user) {
+                if (firebaseUser?.email == messagesViewModel.selectedComment.user) {
                     Log.d(
                         "MessageThreadFragment",
-                        "Logged in Firebase User: ${firebaseUser.email} is similar to comment poster: ${selectedComment.user}"
+                        "Logged in Firebase User: ${firebaseUser.email} is similar to comment poster: ${messagesViewModel.selectedComment.user}"
                     )
-                    messagesViewModel.deleteComment(selectedMessage.id, selectedComment.id)
-                    Log.d("MessageThreadFragment","deleted $selectedComment")
+                    messagesViewModel.deleteComment(selectedMessage.id, messagesViewModel.selectedComment.id)
+                    Log.d("MessageThreadFragment","deleted $messagesViewModel.selectedComment")
                     reloadComments()
                 } else {
                     val log = "Failed to delete comment"
@@ -95,18 +112,18 @@ class MessageThreadFragment : Fragment() {
         binding.buttonNewComment.setOnClickListener {
             loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
                 if (firebaseUser != null) {
-                    Log.d("MessageStreamFragment", "firebaseUser != null")
+                    Log.d("MessageThreadFragment", "firebaseUser != null")
                     val content = binding.newCommentTextEdit.text.toString().trim()
                     val messageId = selectedMessage.id
                     val user = firebaseUser.email.toString().trim()
                     val newComment = Comment(content, messageId, user)
                     messagesViewModel.postComment(messageId, newComment)
-                    Log.d("MessageStreamFragment", "post $newComment")
+                    Log.d("MessageThreadFragment", "post $newComment")
                     reloadComments()
                     binding.newCommentTextEdit.text.clear()
                 } else {
                     val log = "Failed to add new message"
-                    Log.d("MessageStreamFragment",log)
+                    Log.d("MessageThreadFragment",log)
                 }
             }
         }

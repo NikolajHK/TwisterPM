@@ -14,7 +14,10 @@
         <action
             android:id="@+id/action_LoginSignupFragment_to_MessageStreamFragment"
             app:destination="@id/MessageStreamFragment"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/MessageStreamFragment"
@@ -26,12 +29,18 @@
             android:id="@+id/action_MessageStreamFragment_to_LoginSignupFragment"
             app:destination="@id/LoginSignupFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/LoginSignupFragment" />
         <action
             android:id="@+id/action_MessageStreamFragment_to_MessageThreadFragment"
             app:destination="@id/MessageThreadFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/MessageThreadFragment" />
     </fragment>
     <fragment
         android:id="@+id/MessageThreadFragment"
@@ -43,7 +52,10 @@
             android:id="@+id/action_MessageThreadFragment_to_MessageStreamFragment"
             app:destination="@id/MessageStreamFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/MessageStreamFragment" />
         <argument
             android:name="position"
             app:argType="integer" />
