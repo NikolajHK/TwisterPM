@@ -7,18 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twisterpm.R
 import com.example.twisterpm.databinding.FragmentMessagestreamBinding
-import com.example.twisterpm.model.MessagesAdapter
 import com.example.twisterpm.viewmodel.MessagesViewModel
 import com.example.twisterpm.model.Message
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -44,14 +38,6 @@ class MessageStreamFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val bundle = requireArguments()
-//        val messageStreamFragmentArgs
-//        : MessageStreamFragmentArgs = MessageStreamFragmentArgs.fromBundle(bundle)
-//        val user = args.user
-//        if (user != null) {
-//            messagesViewModel.userLiveData.postValue(user.email)
-//        }
-
         loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {user ->
             if (user != null) {
                 binding.LoggedInUserView.text= "Logged in as " + user.email
@@ -59,19 +45,44 @@ class MessageStreamFragment : Fragment() {
         }
 
         //Messages
+        val selectedMessage = messagesViewModel.selectedMessage
+
         messagesViewModel.loadMessages()
         Log.d("MessageStreamFragment","loaded messages")
 
+        fun reloadMessages() {
+            messagesViewModel.loadMessages()
+            Log.d("MessageThreadFragment","reloaded messages")
+        }
+
         messagesViewModel.messagesLiveData.observe(viewLifecycleOwner) { messages ->
+            binding.progressbar.visibility = View.GONE
+            binding.recyclerView.visibility = if (messages == null) View.GONE else View.VISIBLE
             if (messages != null) {
                 val adapter = MessagesAdapter(messages) { position ->
-                    val selectedMessage = messages[position]
-                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(selectedMessage)
+                    messagesViewModel.selectedMessage = messages[position]
+                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToMessageThreadFragment(position)
                     findNavController().navigate(action)
                     Log.d("MessageStreamFragment", "position: $position")
                 }
                 binding.recyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.recyclerView.adapter = adapter
+            }
+        }
+        binding.buttonDeleteMessage.setOnClickListener {
+            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
+                if (firebaseUser?.email == selectedMessage.user) {
+                    Log.d(
+                        "MessageThreadFragment",
+                        "Logged in Firebase User: ${firebaseUser.email} is similar to message poster: ${selectedMessage.user}"
+                    )
+                    messagesViewModel.deleteMessage(selectedMessage.id)
+                    Log.d("MessageThreadFragment","deleted $selectedMessage")
+                    reloadMessages()
+                } else {
+                    val log = "Failed to delete comment"
+                    Log.d("MessageStreamFragment", log)
+                }
             }
         }
 
@@ -84,7 +95,7 @@ class MessageStreamFragment : Fragment() {
                     val newMessage = Message(content, user)
                     messagesViewModel.postMessage(newMessage)
                     Log.d("MessageStreamFragment", "post $newMessage")
-                    messagesViewModel.loadMessages()
+                    reloadMessages()
                     binding.newMessageTextEdit.text.clear()
                 } else {
                     val message = "Failed to add new message"
@@ -115,7 +126,7 @@ class MessageStreamFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener{
             messagesViewModel.loadMessages()
-            Log.d("MessageStreamFragment","swipe refresh: messages loaded")
+            Log.d("MessageStreamFragment","swipe refresh: messages reloaded")
             binding.swipeRefresh.isRefreshing = false
 
         }

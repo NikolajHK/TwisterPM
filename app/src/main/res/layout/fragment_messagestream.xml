@@ -17,7 +17,7 @@
     <EditText
         android:id="@+id/newMessageTextEdit"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:ems="10"
         android:hint="Create new post..."
         android:inputType="text"
@@ -38,10 +38,33 @@
         android:backgroundTint="@color/colorSecondary"
         android:text="Post Message"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
+        app:layout_constraintBottom_toTopOf="@id/buttonDeleteMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newMessageTextEdit" />
+    <Button
+        android:id="@+id/buttonDeleteMessage"
+        android:layout_width="320dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/colorAlarm"
+        android:text="Delete Message"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNewMessage"
+        app:layout_constraintBottom_toTopOf="@id/progressbar"/>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="android:indeterminate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDeleteMessage" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -51,7 +74,8 @@
         app:layout_constraintBottom_toTopOf="@+id/ButtonLogOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNewMessage">
+        app:layout_constraintTop_toBottomOf="@+id/progressbar">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
