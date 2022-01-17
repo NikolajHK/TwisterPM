@@ -6,8 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twisterpm.databinding.FragmentMessagestreamBinding
 import com.example.twisterpm.viewmodel.MessagesViewModel
@@ -15,9 +20,6 @@ import com.example.twisterpm.model.Message
 import com.example.twisterpm.model.MessagesAdapter
 import com.example.twisterpm.viewmodel.LoginSignupViewModel
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class MessageStreamFragment : Fragment() {
 
     private var _binding: FragmentMessagestreamBinding? = null
@@ -26,11 +28,29 @@ class MessageStreamFragment : Fragment() {
     private val loginSignupViewModel : LoginSignupViewModel by activityViewModels()
 //    private val args: MessageStreamFragmentArgs by navArgs()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val currentBackStackEntry = findNavController().currentBackStackEntry!!
+        val savedStateHandle = currentBackStackEntry.savedStateHandle
+        savedStateHandle.getLiveData<Boolean>(LoginSignupFragment.LOGIN_SUCCESSFUL)
+            .observe(currentBackStackEntry, Observer { firebaseUser ->
+                if (firebaseUser != null) {
+                    val startDestination = findNavController().graph.startDestination
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(startDestination, true)
+                        .build()
+                    findNavController().navigate(startDestination, null, navOptions)
+                }
+            })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
+        setHasOptionsMenu(true)
         _binding = FragmentMessagestreamBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -39,9 +59,14 @@ class MessageStreamFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {user ->
-            if (user != null) {
-                binding.LoggedInUserView.text= "Logged in as " + user.email
+        loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) {firebaseUser ->
+            if (firebaseUser != null) {
+                binding.LoggedInUserView.text= "Logged in as " + firebaseUser.email
+            } else {
+                Log.d("MessageStreamFragment","firebaseUser is null")
+                val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToLoginSignupFragment()
+                findNavController().navigate(action)
+                Log.d("MessageStreamFragment","Attempting to move: $action" )
             }
         }
 
@@ -97,14 +122,14 @@ class MessageStreamFragment : Fragment() {
         binding.ButtonLogOut.setOnClickListener {
             loginSignupViewModel.signOut()
             Log.d("MessageStreamFragment", "Sign out successful")
-            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
-                if (firebaseUser == null){
-                    Log.d("MessageStreamFragment","firebaseUser now null")
-                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToLoginSignupFragment()
-                    findNavController().navigate(action)
-                    Log.d("MessageStreamFragment","Attempting to move: $action" )
-                }
-            }
+//            loginSignupViewModel.userLiveData.observe(viewLifecycleOwner) { firebaseUser ->
+//                if (firebaseUser == null){
+//                    Log.d("MessageStreamFragment","firebaseUser now null")
+//                    val action = MessageStreamFragmentDirections.actionMessageStreamFragmentToLoginSignupFragment()
+//                    findNavController().navigate(action)
+//                    Log.d("MessageStreamFragment","Attempting to move: $action" )
+//                }
+//            }
         }
 
         binding.swipeRefresh.setOnRefreshListener{

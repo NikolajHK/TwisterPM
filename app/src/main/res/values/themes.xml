@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:colorButtonNormal">@color/colorSecondary</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
@@ -45,7 +46,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TwisterPM.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.TwisterPM.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
-    <style name="Theme.TwisterPM.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.TwisterPM.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>

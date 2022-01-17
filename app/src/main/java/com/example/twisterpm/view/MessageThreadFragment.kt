@@ -32,6 +32,17 @@ class MessageThreadFragment : Fragment() {
 
         _binding = FragmentMessagethreadBinding.inflate(inflater, container, false)
         return binding.root
+//        (TODO)
+//         Once you set the toolbar as an activity's app bar,
+    //         you have access to the various utility methods provided by the v7 appcompat support library's ActionBar class.
+    //         This approach lets you do a number of useful things, like hide and show the app bar.
+//
+//To use the ActionBar utility methods, call the activity's getSupportActionBar() method.
+    // This method returns a reference to an appcompat ActionBar object.
+    // Once you have that reference, you can call any of the ActionBar methods to adjust the app bar.
+    // For example, to hide the app bar, call ActionBar.hide().
+//
+//        activity?.actionBar?.hide()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

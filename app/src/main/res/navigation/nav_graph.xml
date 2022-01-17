@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/LoginSignupFragment">
+    app:startDestination="@id/MessageStreamFragment">
 
     <fragment
         android:id="@+id/LoginSignupFragment"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/MessageStreamFragment"
         android:name="com.example.twisterpm.view.MessageStreamFragment"
-        android:label="@string/messagestream_fragment_label"
+        android:label="@+id/logo"
         tools:layout="@layout/fragment_messagestream">
 
         <action
