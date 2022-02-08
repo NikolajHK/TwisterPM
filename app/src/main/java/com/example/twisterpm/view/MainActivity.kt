@@ -43,11 +43,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBar(navController, appBarConfiguration)
 
 //        binding.NavigationView.setNavigationItemSelectedListener() {
-//            R.id.LoginSignupFragment -> {
-//                if (Firebase.auth.currentUser != null) {
-//                    Firebase.auth.signOut()
-//                }
-//            }
+////            R.id.LoginSignupFragment -> {
+////                if (Firebase.auth.currentUser != null) {
+////                    Firebase.auth.signOut()
+////                }
+////            }
 //        }
 
 

@@ -61,7 +61,7 @@ class LoginSignupFragment : Fragment() {
         binding.buttonLogin.setOnClickListener {
             val email = binding.editLoginUsername.text.toString().trim()
             val password = binding.editLoginPassword.text.toString().trim()
-            loginSignupViewModel.login(email, password)
+            login(email, password)
             Log.d("LoginSignupFragment", "logged in with email: $email and password: $password")
         }
 
@@ -74,23 +74,24 @@ class LoginSignupFragment : Fragment() {
             }
         })
 
-//        fun login(email: String, password: String) {
-//            loginSignupViewModel.login(email, password).observe(viewLifecycleOwner, Observer {firebaseUser ->
-//                if (firebaseUser != null) {
-//                    savedStateHandle.set(LOGIN_SUCCESSFUL,true)
-//                    findNavController().popBackStack()
-//                } else {
-//                    Log.d("LoginSignupFragment", "firebaseUser is still null")
-//                }
-//            })
-//        }
-
 
         loginSignupViewModel.errorLiveData.observe(viewLifecycleOwner) {errorMessage ->
             if (errorMessage != null) {
                 binding.errorMessageView.text = errorMessage
             }
         }
+    }
+
+    fun login(email: String, password: String) {
+        loginSignupViewModel.login(email, password)
+        loginSignupViewModel.userLiveData.observe(viewLifecycleOwner, Observer { result ->
+            if (result != null) {
+                savedStateHandle.set(LOGIN_SUCCESSFUL,true)
+                findNavController().popBackStack()
+            } else {
+                Log.d("LoginSignupFragment", "firebaseUser is still null")
+            }
+        })
     }
 
     override fun onDestroyView() {

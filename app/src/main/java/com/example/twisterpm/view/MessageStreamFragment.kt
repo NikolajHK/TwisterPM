@@ -34,8 +34,8 @@ class MessageStreamFragment : Fragment() {
         val currentBackStackEntry = findNavController().currentBackStackEntry!!
         val savedStateHandle = currentBackStackEntry.savedStateHandle
         savedStateHandle.getLiveData<Boolean>(LoginSignupFragment.LOGIN_SUCCESSFUL)
-            .observe(currentBackStackEntry, Observer { firebaseUser ->
-                if (firebaseUser != null) {
+            .observe(currentBackStackEntry, Observer { success ->
+                if (!success) {
                     val startDestination = findNavController().graph.startDestination
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(startDestination, true)
